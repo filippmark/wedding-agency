@@ -1,0 +1,91 @@
+.Task{
+    display: flex;
+    list-style: none;
+    width: 80%;
+    height: 60px;
+    padding: 0;
+    align-items: center;
+    border-radius: 10px;
+    margin-left: 6%;
+}
+
+.NewTask{
+    animation: taskAppereance 1s;
+}
+
+.TaskWrapper{
+    display: flex;
+    margin: 20px auto;
+    width: 80%;
+    justify-content: center;
+}
+
+.Task__description{
+    width: 38%;
+    padding: 5px;
+    text-align: center;
+}
+
+.Task__date{
+    width: 30%;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.Task__delete{
+    width: 4%;
+    margin-right: 10px;
+}
+
+.fileLabel{
+    padding: 0px;
+    margin: 0px;
+}
+
+.FileChooser{
+    display: flex;
+    justify-content: center;
+}
+
+.FileInput{
+    visibility: hidden;
+    width: 0px;
+    height: 0px;
+}
+
+.Task__status{
+    width: 28%;
+}
+
+.savebtn{
+    margin-top: 12px;
+}
+
+.savebtn.visible{
+    animation:  saveBtnAppereance 500ms;
+}
+
+
+@keyframes taskAppereance{
+
+    from{
+        opacity: 0;
+    }
+
+    to{
+        opacity: 1;
+    }
+}
+
+@keyframes saveBtnAppereance{
+    
+    from{
+        transform: rotate(0deg);
+    }
+
+    to{
+        transform: rotate(360deg);
+    }
+
+}
