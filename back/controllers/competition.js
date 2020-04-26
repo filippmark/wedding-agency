@@ -6,9 +6,17 @@ exports.getCompetitions = async (req, res, next) => {
   const { page } = req.params;
 
   try {
-    let competitions = await Competition.paginate({}, {page, limit: amountByPage});
+    let competitions = await Competition.paginate(
+      {},
+      { page, limit: amountByPage }
+    );
 
-    return res.status(200).send({competitions: competitions.docs, pagesCount: competitions.total / amountByPage});
+    return res
+      .status(200)
+      .send({
+        competitions: competitions.docs,
+        pagesCount: Math.ceil(competitions.total / amountByPage),
+      });
   } catch (err) {
     return res.status(500).send();
   }

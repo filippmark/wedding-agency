@@ -10,7 +10,10 @@ exports.getPlaces = async (req, res, next) => {
 
     return res
       .status(200)
-      .send({ places: places.docs, pagesCount: places.total / amountByPage });
+      .send({
+        places: places.docs,
+        pagesCount: Math.ceil(places.total / amountByPage),
+      });
   } catch (err) {
     return res.status(500).send();
   }
