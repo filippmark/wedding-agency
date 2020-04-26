@@ -2,7 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-const tasksRouter = require('./routes/tasks');
+const basketRouter = require('./routes/basket');
+const orderRouter = require('./routes/order');
+const placeRouter = require('./routes/place');
+const competitionRouter = require('./routes/competition');
 const authRouter = require('./routes/authentification');
 require('dotenv').config();
 
@@ -18,7 +21,14 @@ app.use(cors({
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use('/', tasksRouter);
+
+app.use('/', placeRouter);
+
+app.use('/', competitionRouter);
+
+app.use('/', orderRouter);
+
+app.use('/', basketRouter);
 
 app.use('/', authRouter);
 

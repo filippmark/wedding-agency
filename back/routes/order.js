@@ -2,8 +2,8 @@ const orderRouter = require('express').Router();
 const orderController = require('../controllers/order');
 const jwtHelpers = require('../helpers/jwtHelpers');
 
-competitionRouter.get('/order', jwtHelpers.isValidToken, orderController.getOrders);
+orderRouter.get('/order', jwtHelpers.isValidToken, orderController.getOrders);
 
-competitionRouter.post('/order', jwtHelpers.isValidToken, orderController.createNewOrder);
+orderRouter.post('/order', jwtHelpers.isValidToken, orderController.createNewOrder);
 
 module.exports = orderRouter;

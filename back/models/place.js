@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-require("dotenv/types").config();
+require("../node_modules/dotenv").config();
 const mongoosePaginate = require("mongoose-paginate");
 
 mongoose
