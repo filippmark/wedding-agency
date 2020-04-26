@@ -1,76 +1,67 @@
-const Competition = require('../models/competition');
+const Competition = require("../models/competition");
+
+const amountByPage = 20;
 
 exports.getCompetitions = async (req, res, next) => {
+  const { page } = req.params;
 
-    try {
-        let tasks = await Task.find({ userId: req.user.id, progress: { $in: progress.split(',') } });
+  try {
+    let competitions = await Competition.paginate({}, {page, limit: amountByPage});
 
-        return res.status(200).send(tasks);
-
-    } catch (err) {
-        return res.status(500).send();
-    }
-
-}
+    return res.status(200).send({competitions: competitions.docs, pagesCount: competitions.total / amountByPage});
+  } catch (err) {
+    return res.status(500).send();
+  }
+};
 
 exports.addCompetition = async (req, res, next) => {
-    const { description, date, file, progress } = req.body;
+  const { name, description, amountOfParticipants, price } = req.body;
 
-    try {
+  try {
+    let competition = new Competition({
+      name,
+      description,
+      amountOfParticipants,
+      price,
+    });
 
-        let task = new Task({
-            description,
-            date,
-            file,
-            progress,
-            userId: req.user.id
-        });
+    competition = await competition.save();
 
-        task = await task.save();
+    return res.status(200).send(competition);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send();
+  }
+};
 
-        return res.status(200).send(task);
+exports.updateCompetition = async (req, res) => {
+  const { competitionId } = req.params;
+  const { name, description, amountOfParticipants, price } = req.body;
 
-    } catch (err) {
-        console.log(err);
-        return res.status(500).send();
-    }
+  try {
+    const updatedCompetition = await Competition.updateOne(
+      { _id: competitionId },
+      { $set: { name, description, amountOfParticipants, price } }
+    );
 
-}
+    res.status(200).send(updatedCompetition);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send();
+  }
+};
 
-exports.updateTask = async (req, res) => {
+exports.deleteCompetition = async (req, res) => {
+  const { competitionId } = req.params;
 
-    const { taskId } = req.params;
-    const { description, date, file, progress } = req.body;
+  try {
+    const result = await Competition.findByIdAndDelete(competitionId);
 
-    try {
+    console.log(result);
 
-        const updatedTask = await Task.updateOne({ _id: taskId }, { $set: { description, date, file, progress } });
-
-        res.status(200).send(updatedTask);
-
-    } catch (err) {
-        console.log(err);
-        return res.status(500).send();
-    }
-}
-
-exports.deleteTask = async (req, res) => {
-
-    console.log(req.params);
-
-    const { taskId } = req.params;
-
-    try {
-
-        const result = await Task.findByIdAndDelete(taskId);
-
-        console.log(result);
-
-        res.status(200).send();
-
-    } catch (error) {
-        console.log(error);
-        return res.status(500).send();
-    }
-
-}
+    res.status(200).send();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send();
+  }
+};

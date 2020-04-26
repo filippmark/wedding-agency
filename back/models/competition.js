@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 require("../node_modules/dotenv").config();
+const mongoosePaginate = require("mongoose-paginate");
 
 mongoose
   .connect(process.env.DB_ADDRESS, {
@@ -25,16 +26,14 @@ let competitionScheme = new Schema({
   },
   amountOfParticipants: {
     type: Number,
-    required: true
-  },
-  imagePath: {
-      type: String,
-      required: true
+    required: true,
   },
   price: {
-      type: Number,
-      required: true
-  }
+    type: Number,
+    required: true,
+  },
 });
+
+competitionScheme.plugin(mongoosePaginate);
 
 module.exports = mongoose.model("competition", competitionScheme);

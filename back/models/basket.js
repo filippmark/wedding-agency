@@ -18,22 +18,27 @@ let basketScheme = new Schema({
   price: {
     type: Number,
     required: true,
+    default: null
   },
   amountOfItems: {
     type: Number,
     required: true,
+    default: null
   },
   placeId: {
     type: Schema.Types.ObjectId,
     ref: "place",
+    default: null
   },
   userId: {
     type: Schema.Types.ObjectId,
     ref: "user",
+    default: null
   },
   rate: {
     type: Schema.Types.ObjectId,
     ref: "rate",
+    default: null
   }
 });
 

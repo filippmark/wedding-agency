@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 require("dotenv/types").config();
+const mongoosePaginate = require("mongoose-paginate");
 
 mongoose
   .connect(process.env.DB_ADDRESS, {
@@ -44,5 +45,7 @@ let placeScheme = new Schema({
     required: true,
   }
 });
+
+placeScheme.plugin(mongoosePaginate);
 
 module.exports = mongoose.model("place", placeScheme);
