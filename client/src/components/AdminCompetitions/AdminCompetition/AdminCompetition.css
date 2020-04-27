@@ -1,14 +1,4 @@
-.adminCompetition {
-  margin-top: 20px;
-  margin-right: 20px;
+.adminCompetition{
   padding: 20px;
   box-sizing: border-box;
-  width: 30%;
-  flex-shrink: 0;
-  flex-grow: 0;
-}
-
-.deleteWrapper{
-    position: absolute;
-    left: 90%;
 }

@@ -20,7 +20,7 @@ exports.getPlaces = async (req, res, next) => {
 };
 
 exports.addPlace = async (req, res, next) => {
-  const { name, town, street, house, volume, imagePath, price } = req.body;
+  const { name, town, street, house, volume, price } = req.body;
 
   try {
     let place = new Place({
@@ -29,7 +29,6 @@ exports.addPlace = async (req, res, next) => {
       street,
       house,
       volume,
-      imagePath,
       price,
     });
 

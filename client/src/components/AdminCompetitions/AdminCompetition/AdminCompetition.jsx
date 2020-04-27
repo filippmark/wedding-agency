@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Form, FormGroup, Label, Input, Button, Card } from "reactstrap";
-import "./AdminCompetition.css";
+import './AdminCompetition.css';
 
 export default class AdminCompetition extends Component {
   state = {
