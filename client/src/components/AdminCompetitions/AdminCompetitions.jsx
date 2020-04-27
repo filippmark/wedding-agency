@@ -2,70 +2,25 @@ import React, { Component } from "react";
 import AdminCompetition from "./AdminCompetition/AdminCompetition";
 import axios from "axios";
 import "./AdminCompetitions.css";
-import { Button } from 'reactstrap';
+import { Button } from "reactstrap";
 
 export default class AdminCompetitions extends Component {
   state = {
-    currentPage: 0,
-    pagesCount: 2,
-    items: [
-      {
-        _id: "weqe213123",
-        name: "Прыжок",
-        description: "fffffffffsdfsdfsdf",
-        amountOfParticipants: 2,
-        price: 20,
-        isChanged: true,
-        isNew: true,
-      },
-      {
-        _id: "weqe213123",
-        name: "Прыжок",
-        description: "fffffffffsdfsdfsdf",
-        amountOfParticipants: 2,
-        price: 20,
-        isChanged: true,
-        isNew: true,
-      },
-      {
-        _id: "weqe213123",
-        name: "Прыжок",
-        description: "fffffffffsdfsdfsdf",
-        amountOfParticipants: 2,
-        price: 20,
-        isChanged: true,
-        isNew: true,
-      },
-      {
-        _id: "weqe213123",
-        name: "Прыжок",
-        description: "fffffffffsdfsdfsdf",
-        amountOfParticipants: 2,
-        price: 20,
-        isChanged: true,
-        isNew: true,
-      },
-      {
-        _id: "weqe213123",
-        name: "Прыжок",
-        description: "fffffffffsdfsdfsdf",
-        amountOfParticipants: 2,
-        price: 20,
-        isChanged: true,
-        isNew: true,
-      },
-    ],
+    currentPage: 1,
+    pagesCount: 1,
+    items: [],
   };
 
   getCompetitions = async (page) => {
     try {
       let response = await axios.get(
-        `http://localhost:8080/competition/${page}`
+        `http://localhost:8080/competition/${page}`,
+        { withCredentials: true }
       );
 
       this.setState({
         ...this.state,
-        competitions: this.state.competitions.concat(
+        items: this.state.items.concat(
           response.data.competitions
         ),
         pagesCount: response.data.pagesCount,
@@ -85,7 +40,7 @@ export default class AdminCompetitions extends Component {
       description: "",
       amountOfParticipants: 0,
       price: 0,
-      isChanged: true,
+      isChanged: false,
       isNew: true,
     });
 
@@ -98,7 +53,10 @@ export default class AdminCompetitions extends Component {
   deleteItem = async (_id, isNew) => {
     if (!isNew) {
       try {
-        let response = axios.delete(`http://localhost:8080/competition/${_id}`);
+        let response = axios.delete(
+          `http://localhost:8080/competition/${_id}`,
+          { withCredentials: true }
+        );
       } catch (error) {
         console.log(error);
       }
@@ -121,15 +79,22 @@ export default class AdminCompetitions extends Component {
   saveNewItem = async (item, isNew) => {
     let response;
 
+    console.log(item);
+
     try {
       if (isNew) {
-        response = await axios.post("http://localhost:8080/competition", {
-          item,
-        });
+        response = await axios.post(
+          "http://localhost:8080/competition",
+          {
+            ...item,
+          },
+          { withCredentials: true }
+        );
       } else {
         response = await axios.put(
           `http://localhost:8080/competition/${item._id}`,
-          item
+          {...item},
+          { withCredentials: true }
         );
       }
 
@@ -158,10 +123,12 @@ export default class AdminCompetitions extends Component {
     }
   };
 
-  loadMore = () => {};
+  loadMore = () => {
+    this.getCompetitions(this.state.currentPage + 1);
+  };
 
   componentDidMount() {
-    //this.getCompetitions(0);
+    this.getCompetitions(1);
   }
 
   render() {

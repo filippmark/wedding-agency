@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+require("../node_modules/dotenv").config();
 
 exports.createToken = async (res, body) => {
   let token = null;
@@ -30,11 +31,16 @@ exports.removeToken = (req, res, next) => {
 
 exports.isValidToken = async (req, res, next) => {
   const token = req.cookies ? req.cookies.token : false;
+  console.log(token);
   try {
     if (!token) {
       return res.status(401).json("You should to Login");
     }
     const decrypt = await jwt.verify(token, process.env.JWT_SECRET);
+
+    console.log('---------------');
+
+    console.log(decrypt);
 
     if (decrypt) {
       req.user = {

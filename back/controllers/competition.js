@@ -47,10 +47,12 @@ exports.updateCompetition = async (req, res) => {
   const { name, description, amountOfParticipants, price } = req.body;
 
   try {
-    const updatedCompetition = await Competition.updateOne(
-      { _id: competitionId },
+    const updatedCompetition = await Competition.findByIdAndUpdate(
+      competitionId,
       { $set: { name, description, amountOfParticipants, price } }
     );
+
+    console.log(updatedCompetition);
 
     res.status(200).send(updatedCompetition);
   } catch (err) {

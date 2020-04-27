@@ -5,6 +5,7 @@ import "./AdminCompetition.css";
 export default class AdminCompetition extends Component {
   state = {
     ...this.props,
+    isChanged: this.props.isChanged,
   };
 
   handleUpdate = (event) => {
@@ -87,11 +88,11 @@ export default class AdminCompetition extends Component {
           <Button
             disabled={
               !(
-                this.state.name &&
-                this.state.description &&
-                this.state.amountOfParticipants &&
-                this.state.price
-              ) && this.state.isChanged
+                !!this.state.name &&
+                !!this.state.description &&
+                !!this.state.amountOfParticipants &&
+                !!this.state.price
+              ) || !this.state.isChanged
             }
             onClick={this.handleUpdate}
           >
