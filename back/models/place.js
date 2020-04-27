@@ -38,7 +38,7 @@ let placeScheme = new Schema({
   },
   imagePath: {
     type: String,
-    required: true,
+    default: null
   },
   price: {
     type: Number,
