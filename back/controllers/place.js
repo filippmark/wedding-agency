@@ -9,13 +9,15 @@ exports.getPlaces = async (req, res, next) => {
   try {
     let places = await Place.paginate({}, { page, limit: amountByPage });
 
-    let basket = await Basket.findOne({ userId: req.user.id });
+    let bookedPlaceId = null;
 
-    const bookedPlaceId = basket.placeId;
-
-    if (basket.placeId) {
+    if(req.user){
+      let basket = await Basket.findOne({ userId: req.user.id });
+      bookedPlaceId = basket.placeId;
+    }
+    
+    if (req.user && basket.placeId) {
       places.docs = places.docs.map((place) => {
-        console.log(typeof place._doc._id);
         return {
           ...place._doc,
           isBooked: place._doc._id.toString() === bookedPlaceId.toString(),

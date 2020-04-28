@@ -2,7 +2,7 @@ const competitionRouter = require('express').Router();
 const competitionController = require('../controllers/competition');
 const jwtHelpers = require('../helpers/jwtHelpers');
 
-competitionRouter.get('/competition/:page', jwtHelpers.isValidToken, competitionController.getCompetitions);
+competitionRouter.get('/competition/:page',  competitionController.getCompetitions);
 
 competitionRouter.post('/competition', jwtHelpers.isValidToken, competitionController.addCompetition);
 

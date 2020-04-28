@@ -8,4 +8,6 @@ userRouter.post('/signIn', userController.checkForUserExistence);
 
 userRouter.get('/signOut', jwtHelpers.removeToken);
 
+userRouter.get('/isValidToken', jwtHelpers.isValidToken, (req, res) => { return res.status(200).send();});
+
 module.exports = userRouter;

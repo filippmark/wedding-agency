@@ -87,7 +87,7 @@ export default class SignIn extends React.Component {
                             <Input type="password" name="password" id="password" invalid={this.state.password.length > 0 && isPasswordInvalid} placeholder="type your password" onChange={this._handleChange} />
                         </Col>
                     </FormGroup>
-                    <Button color="secondary" size="md" disabled={isEmailInvalid || isPasswordInvalid} onClick={this._handleSignIn}> Sign in </Button>
+                    <Button color="secondary" size="md" disabled={isEmailInvalid || isPasswordInvalid} onClick={this._handleSignIn}> Войти </Button>
                 </Form>
                 {this.state.signInError && (<div className="error-block"> {this.state.signInError} </div>)}
             </div>

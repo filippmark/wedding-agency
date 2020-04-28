@@ -12,6 +12,7 @@ import Navbar from './components/Global/Navbar/Navbar';
 import Home from './components/Home/Home';
 import { AuthContext } from './context';
 import './App.css';
+import axios from 'axios';
 
 class App extends Component {
 
@@ -23,6 +24,24 @@ class App extends Component {
     this.setState({
       isAuthorised
     });
+  }
+
+  checkForAuth = async () => {
+    try {
+      
+      let response = await axios.get('http://localhost:8080/isValidToken', {withCredentials: true});
+
+      console.log(response);
+
+    } catch (error) {
+      this.setState({
+        isAuthorised: false
+      });
+    }
+  }
+
+  componentDidMount(){
+    this.checkForAuth();
   }
 
   render() {

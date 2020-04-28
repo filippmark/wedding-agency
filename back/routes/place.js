@@ -2,7 +2,7 @@ const placeRouter = require('express').Router();
 const placeController = require('../controllers/place');
 const jwtHelpers = require('../helpers/jwtHelpers');
 
-placeRouter.get('/place/:page', jwtHelpers.isValidToken, placeController.getPlaces);
+placeRouter.get('/place/:page', placeController.getPlaces);
 
 placeRouter.post('/place', jwtHelpers.isValidToken, placeController.addPlace);
 

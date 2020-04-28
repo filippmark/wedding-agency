@@ -9,6 +9,8 @@ import {
   Button,
   ButtonGroup,
 } from "reactstrap";
+import { AuthContext } from "../../context";
+import { Redirect } from "react-router-dom";
 
 export default class Basket extends Component {
   state = {
@@ -19,6 +21,8 @@ export default class Basket extends Component {
     rates: [],
     coefficient: 1,
   };
+
+  static contextType = AuthContext;
 
   getBasketInfo = async () => {
     try {
@@ -119,8 +123,11 @@ export default class Basket extends Component {
 
   createOrder = async () => {
     try {
-      let response = await axios.post("http://localhost:8080/order",
-      {}, {withCredentials: true});
+      let response = await axios.post(
+        "http://localhost:8080/order",
+        {},
+        { withCredentials: true }
+      );
 
       console.log(response);
     } catch (error) {
@@ -134,86 +141,87 @@ export default class Basket extends Component {
   }
 
   render() {
-
-    console.log(!!this.state.rate);
-
-    return (
-      <div className="basket">
-        <div className="basket__items">
-          <div className="basket__items__heading">Выбранные конкурсы</div>
-          <Table striped hover>
-            <thead>
-              <tr>
-                <th> Наименование </th>
-                <th> Цена </th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.state.items.map((item) => {
-                return (
-                  <BasketItem
-                    key={item._id}
-                    delete={this.deleteItem}
-                    idForDel={item._id}
-                    {...item.competitionId}
-                  ></BasketItem>
-                );
-              })}
-            </tbody>
-          </Table>
-        </div>
-        <div className="placePrice">
-          <div className="placeDescription">
-            <ListGroup>
-              <ListGroupItem> Место</ListGroupItem>
-              <ListGroupItem>
-                {" "}
-                Название: {this.state.placeId ? this.state.placeId.name : ""}
-              </ListGroupItem>
-              <ListGroupItem>
-                {" "}
-                Вместительность:{" "}
-                {this.state.placeId ? this.state.placeId.volume : ""}
-              </ListGroupItem>
-              <ListGroupItem>
-                {" "}
-                Цена:{" "}
-                {this.state.placeId ? `${this.state.placeId.price}р.` : ""}
-              </ListGroupItem>
-            </ListGroup>
+    if (this.context.isAuthorised) {
+      return (
+        <div className="basket">
+          <div className="basket__items">
+            <div className="basket__items__heading">Выбранные конкурсы</div>
+            <Table striped hover>
+              <thead>
+                <tr>
+                  <th> Наименование </th>
+                  <th> Цена </th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.items.map((item) => {
+                  return (
+                    <BasketItem
+                      key={item._id}
+                      delete={this.deleteItem}
+                      idForDel={item._id}
+                      {...item.competitionId}
+                    ></BasketItem>
+                  );
+                })}
+              </tbody>
+            </Table>
           </div>
-          <div className="price">
-            <div className="coefs">
-              <div>
-                <ButtonGroup>
-                  {this.state.rates.map((el) => {
-                    return (
-                      <Coef
-                        selectedRate={this.state.rate}
-                        key={el._id}
-                        setCoef={this.setCoef}
-                        {...el}
-                      ></Coef>
-                    );
-                  })}
-                </ButtonGroup>
+          <div className="placePrice">
+            <div className="placeDescription">
+              <ListGroup>
+                <ListGroupItem> Место</ListGroupItem>
+                <ListGroupItem>
+                  {" "}
+                  Название: {this.state.placeId ? this.state.placeId.name : ""}
+                </ListGroupItem>
+                <ListGroupItem>
+                  {" "}
+                  Вместительность:{" "}
+                  {this.state.placeId ? this.state.placeId.volume : ""}
+                </ListGroupItem>
+                <ListGroupItem>
+                  {" "}
+                  Цена:{" "}
+                  {this.state.placeId ? `${this.state.placeId.price}р.` : ""}
+                </ListGroupItem>
+              </ListGroup>
+            </div>
+            <div className="price">
+              <div className="coefs">
+                <div>
+                  <ButtonGroup>
+                    {this.state.rates.map((el) => {
+                      return (
+                        <Coef
+                          selectedRate={this.state.rate}
+                          key={el._id}
+                          setCoef={this.setCoef}
+                          {...el}
+                        ></Coef>
+                      );
+                    })}
+                  </ButtonGroup>
+                </div>
+              </div>
+              <div className="makeOffer">
+                <div className="priceNumber">Цена: {this.state.price}р.</div>
+                <Button
+                  disabled={!!!this.state.rate || !!!this.state.placeId}
+                  onClick={this.createOrder}
+                >
+                  {" "}
+                  Заказать{" "}
+                </Button>
               </div>
             </div>
-            <div className="makeOffer">
-              <div className="priceNumber">Цена: {this.state.price}р.</div>
-              <Button
-                disabled={!(!!this.state.rate) || !(!!this.state.placeId)}
-                onClick={this.createOrder}
-              >
-                {" "}
-                Заказать{" "}
-              </Button>
-            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }else{
+        return <Redirect to="/sign-in"></Redirect>
+    }
   }
 }
 

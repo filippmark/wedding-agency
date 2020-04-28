@@ -11,8 +11,12 @@ import {
 import "./Place.css";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
+import {AuthContext} from '../../../context';
 
 export default class Place extends Component {
+
+  static contextType = AuthContext;
+
   state = {
     ...this.props,
     clicked: false,
@@ -74,7 +78,7 @@ export default class Place extends Component {
           <CardSubtitle> Вместительность: {this.state.volume}.</CardSubtitle>
           <CardSubtitle> Цена: {this.state.price}.</CardSubtitle>
           <div className="addToCart">
-            <Button onClick={this.bookPlace}>
+            <Button disabled={!this.context.isAuthorised} onClick={this.bookPlace}>
               {this.state.isBooked ? "Убрать из корзины" : "Добавить в корзину"}
             </Button>
           </div>

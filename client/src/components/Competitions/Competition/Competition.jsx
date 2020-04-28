@@ -2,8 +2,12 @@ import React, { Component } from "react";
 import { CardSubtitle, Card, CardText, Button, CardTitle, CardBody, CardImg } from "reactstrap";
 import "./Competition.css";
 import axios from "axios";
+import {AuthContext} from '../../../context';
 
 export default class Competition extends Component {
+
+  static contextType = AuthContext;
+
   state = {
     ...this.props,
   };
@@ -57,7 +61,7 @@ export default class Competition extends Component {
           </CardSubtitle>
           <CardSubtitle>Цена: {this.state.price} руб.</CardSubtitle>
           <div className="addToCart">
-            <Button onClick={this.bookCompetition}>
+            <Button disabled={!this.context.isAuthorised} onClick={this.bookCompetition}>
               {this.state.isBooked ? "Убрать из корзины" : "Добавить в корзину"}
             </Button>
           </div>

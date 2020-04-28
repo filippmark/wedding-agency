@@ -93,7 +93,7 @@ export default class SignIn extends React.Component {
                             <Input type="password" name="password2" id="password2" invalid={this.state.password2.length > 0 && isPasswordsAreDifferent} placeholder="repeat your password" onChange={this._handleChange} />
                         </Col>
                     </FormGroup>
-                    <Button color="secondary" size="md" disabled={isEmailInvalid || isPasswordInvalid || isPasswordsAreDifferent} onClick={this._handleSignUp}> Sign up </Button>
+                    <Button color="secondary" size="md" disabled={isEmailInvalid || isPasswordInvalid || isPasswordsAreDifferent} onClick={this._handleSignUp}> Зарегистрироваться </Button>
                 </Form>
                 {this.state.signUpError && (<div className="error-block"> {this.state.signUpError} </div>)}
             </div>
