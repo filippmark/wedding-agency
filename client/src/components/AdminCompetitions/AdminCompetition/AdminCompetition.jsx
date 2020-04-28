@@ -1,11 +1,16 @@
 import React, { Component } from "react";
 import { Form, FormGroup, Label, Input, Button, Card } from "reactstrap";
-import './AdminCompetition.css';
+import "./AdminCompetition.css";
 
 export default class AdminCompetition extends Component {
   state = {
-    ...this.props,
     isChanged: this.props.isChanged,
+    isChanged: false,
+    name: "",
+    description: "",
+    amountOfParticipants: 0,
+    price: 0,
+    ...this.props,
   };
 
   handleUpdate = (event) => {
@@ -22,7 +27,6 @@ export default class AdminCompetition extends Component {
 
     this.setState({
       ...this.state,
-      isChanged: false,
     });
   };
 

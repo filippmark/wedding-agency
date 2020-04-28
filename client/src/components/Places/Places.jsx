@@ -6,7 +6,7 @@ export default class Places extends Component {
   render() {
     return (
       <React.Fragment>
-        <List endpoint={'http://localhost:8080/competition/'} Item={Place}></List>
+        <List endpoint={'http://localhost:8080/place/'} Item={Place}></List>
       </React.Fragment>
     );
   }

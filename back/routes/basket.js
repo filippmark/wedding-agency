@@ -8,7 +8,7 @@ basketRouter.post('/basket/setPlace', jwtHelpers.isValidToken, basketController.
 
 basketRouter.delete('/basket/unsetPlace', jwtHelpers.isValidToken, basketController.deletePlace);
 
-basketRouter.delete('/basket/removeItem', jwtHelpers.isValidToken, basketController.removeCompetitionFromBasket);
+basketRouter.delete('/basket/removeItem/:competitionId', jwtHelpers.isValidToken, basketController.removeCompetitionFromBasket);
 
 basketRouter.post('/basket/addItem', jwtHelpers.isValidToken, basketController.addCompetitionToBasket);
 

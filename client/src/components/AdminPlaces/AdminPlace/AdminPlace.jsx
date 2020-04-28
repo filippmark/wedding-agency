@@ -13,15 +13,21 @@ import axios from "axios";
 
 export default class AdminCompetition extends Component {
   state = {
-    ...this.props,
     isChanged: this.props.isChanged,
     files: [],
+    name: '',
+    town: '',
+    street: '',
+    house: 0,
+    volume: 0,
+    price: 0,
+    ...this.props
   };
 
   handleUpdate = (event) => {
     event.preventDefault();
 
-    const competition = {
+    const item = {
       _id: this.state._id,
       name: this.state.name,
       town: this.state.town,
@@ -30,7 +36,7 @@ export default class AdminCompetition extends Component {
       volume: this.state.volume,
       price: this.state.price,
     };
-    this.props.saveNewItem(competition, this.state.isNew);
+    this.props.saveNewItem(item, this.state.isNew);
 
     this.setState({
       ...this.state,
@@ -55,7 +61,7 @@ export default class AdminCompetition extends Component {
         },
       });
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
   };
 

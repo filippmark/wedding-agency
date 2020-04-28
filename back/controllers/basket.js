@@ -51,7 +51,7 @@ exports.deletePlace = async (req, res, next) => {
 };
 
 exports.addCompetitionToBasket = async (req, res, next) => {
-  const { competitionId, basketId } = req.body;
+  const { competitionId } = req.body;
 
   try {
     let basket = await Basket.findOne({ userId: req.user.id });
@@ -65,21 +65,26 @@ exports.addCompetitionToBasket = async (req, res, next) => {
 
     res.status(200).send(basketItem);
   } catch (err) {
+    console.log(err);
     return res.status(500).send();
   }
 };
 
 exports.removeCompetitionFromBasket = async (req, res, next) => {
-  const { competitionId, basketId } = req.params;
+  const { competitionId } = req.params;
 
   try {
+
+    let basket = await Basket.findOne({userId: req.user.id});
+
     let basketItem = await BasketItem.findOneAndDelete({
-      basketId,
+      basketId: basket._id,
       competitionId,
     });
 
     res.status(200).send(basketItem);
   } catch (err) {
+    console.log(err);
     return res.status(500).send();
   }
 };

@@ -10,16 +10,15 @@ export default class AdminList extends Component {
     items: [],
   };
 
-  getCompetitions = async (page) => {
+  getItems = async (page) => {
     try {
-      let response = await axios.get(
-        this.props.endpoint + page.toString(),
-        { withCredentials: true }
-      );
+      let response = await axios.get(this.props.endpoint + page.toString(), {
+        withCredentials: true,
+      });
 
       this.setState({
         ...this.state,
-        items: this.state.items.concat(response.data.competitions),
+        items: this.state.items.concat(response.data.items),
         pagesCount: response.data.pagesCount,
         currentPage: page,
       });
@@ -46,10 +45,9 @@ export default class AdminList extends Component {
   deleteItem = async (_id, isNew) => {
     if (!isNew) {
       try {
-        let response = axios.delete(
-            this.props.endpoint + _id.toString(),
-          { withCredentials: true }
-        );
+        let response = axios.delete(this.props.endpoint + _id.toString(), {
+          withCredentials: true,
+        });
       } catch (error) {
         console.log(error);
       }
@@ -117,11 +115,11 @@ export default class AdminList extends Component {
   };
 
   loadMore = () => {
-    this.getCompetitions(this.state.currentPage + 1);
+    this.getItems(this.state.currentPage + 1);
   };
 
   componentDidMount() {
-    this.getCompetitions(1);
+    this.getItems(1);
   }
 
   render() {
@@ -132,9 +130,8 @@ export default class AdminList extends Component {
         <div className="adminItems">
           {this.state.items.map((item) => {
             return (
-              <div className="adminItem">
+              <div key={item._id} className="adminItem">
                 <Item
-                  key={item._id}
                   {...item}
                   saveNewItem={this.saveNewItem}
                   deleteItem={this.deleteItem}

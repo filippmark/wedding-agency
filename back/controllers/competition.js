@@ -1,4 +1,5 @@
 const Competition = require("../models/competition");
+const BasketItems = require("../models/basketItem");
 
 const amountByPage = 20;
 
@@ -11,13 +12,25 @@ exports.getCompetitions = async (req, res, next) => {
       { page, limit: amountByPage }
     );
 
-    return res
-      .status(200)
-      .send({
-        competitions: competitions.docs,
-        pagesCount: Math.ceil(competitions.total / amountByPage),
-      });
+    let result = await Promise.all(
+      competitions.docs.map(async (competition) => {
+        let basketItem = await BasketItems.find({
+          competitionId: competition._id,
+        });
+
+        return {
+          ...competition._doc,
+          isBooked: !!basketItem.length
+        };
+      })
+    );
+
+    return res.status(200).send({
+      items: result,
+      pagesCount: Math.ceil(competitions.total / amountByPage),
+    });
   } catch (err) {
+    console.log(err);
     return res.status(500).send();
   }
 };

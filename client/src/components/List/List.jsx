@@ -10,7 +10,7 @@ export default class List extends Component {
     items: [],
   };
 
-  getCompetitions = async (page) => {
+  getItems = async (page) => {
     try {
       let response = await axios.get(this.props.endpoint + page.toString(), {
         withCredentials: true,
@@ -18,7 +18,7 @@ export default class List extends Component {
 
       this.setState({
         ...this.state,
-        items: this.state.items.concat(response.data.competitions),
+        items: this.state.items.concat(response.data.items),
         pagesCount: response.data.pagesCount,
         currentPage: page,
       });
@@ -27,11 +27,11 @@ export default class List extends Component {
     }
   };
   loadMore = () => {
-    this.getCompetitions(this.state.currentPage + 1);
+    this.getItems(this.state.currentPage + 1);
   };
 
   componentDidMount() {
-    this.getCompetitions(1);
+    this.getItems(1);
   }
 
   render() {
@@ -42,9 +42,8 @@ export default class List extends Component {
         <div className="items">
           {this.state.items.map((item) => {
             return (
-              <div className="item">
+              <div key={item._id} className="item">
                 <Item
-                  key={item._id}
                   {...item}
                   saveNewItem={this.saveNewItem}
                   deleteItem={this.deleteItem}
@@ -52,9 +51,6 @@ export default class List extends Component {
               </div>
             );
           })}
-          <div className="addNewItem">
-            <Button onClick={this.addNewItem}> Add </Button>
-          </div>
         </div>
         {this.state.pagesCount > 1 && (
           <div className="loadMore" onClick={this.loadMore}>

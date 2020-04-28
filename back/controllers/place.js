@@ -1,4 +1,5 @@
 const Place = require("../models/place");
+const Basket = require("../models/basket");
 
 const amountByPage = 20;
 
@@ -8,12 +9,21 @@ exports.getPlaces = async (req, res, next) => {
   try {
     let places = await Place.paginate({}, { page, limit: amountByPage });
 
-    return res
-      .status(200)
-      .send({
-        places: places.docs,
-        pagesCount: Math.ceil(places.total / amountByPage),
+    let basket = await Basket.find({userId: req.user.id});
+
+    if(basket.placeId){
+      places.docs = places.docs.map((place) => {
+        return{
+          ...place,
+          isBooked: place._id === basket.placeId
+        }
       });
+    }
+
+    return res.status(200).send({
+      items: places.docs,
+      pagesCount: Math.ceil(places.total / amountByPage),
+    });
   } catch (err) {
     return res.status(500).send();
   }
@@ -58,11 +68,11 @@ exports.updatePlace = async (req, res) => {
   }
 };
 
-exports.deleteTask = async (req, res) => {
+exports.deletePlace = async (req, res) => {
   const { placeId } = req.params;
 
   try {
-    const result = await Task.findByIdAndDelete(placeId);
+    const result = await Place.findByIdAndDelete(placeId);
 
     console.log(result);
 
