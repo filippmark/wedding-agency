@@ -4,16 +4,17 @@ const BasketItem = require("../models/basketItem");
 exports.getBasket = async (req, res, next) => {
   try {
     const basket = await Basket.findOne({ userId: req.user.id }).populate(
-      "placeId rate"
+      "placeId"
     );
 
-    const items = await BasketItem.find({ basketId: basket._id });
+    const items = await BasketItem.find({ basketId: basket._id }).populate('competitionId');
 
     res.status(200).send({
       basket,
       items,
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).send();
   }
 };

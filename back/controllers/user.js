@@ -16,7 +16,7 @@ exports.createNewUser = async (req, res, next) => {
 
         await newUser.save();
 
-        const basketUser = await new Basket({ userId: newUser._id });
+        const basketUser = await new Basket({ userId: newUser._id }).save();
 
         res.sendStatus(200);
       } else {

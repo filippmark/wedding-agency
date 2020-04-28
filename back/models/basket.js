@@ -17,13 +17,11 @@ mongoose.set("useFindAndModify", true);
 let basketScheme = new Schema({
   price: {
     type: Number,
-    required: true,
-    default: null
+    default: 0
   },
   amountOfItems: {
     type: Number,
-    required: true,
-    default: null
+    default: 0
   },
   placeId: {
     type: Schema.Types.ObjectId,
