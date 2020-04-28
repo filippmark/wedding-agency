@@ -9,6 +9,7 @@ import {
   CardBody,
 } from "reactstrap";
 import "./Place.css";
+import axios from 'axios';
 
 export default class Place extends Component {
   state = {
@@ -16,8 +17,11 @@ export default class Place extends Component {
   };
 
 
-  bookPlace = () => {
+  bookPlace = async () => {
     try {
+
+      let response;
+
       if (!this.state.isBooked) {
         response = await axios.post(
           "http://localhost:8080/basket/setPlace",

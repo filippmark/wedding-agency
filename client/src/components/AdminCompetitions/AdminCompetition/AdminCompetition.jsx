@@ -4,7 +4,6 @@ import "./AdminCompetition.css";
 
 export default class AdminCompetition extends Component {
   state = {
-    isChanged: this.props.isChanged,
     isChanged: false,
     name: "",
     description: "",
