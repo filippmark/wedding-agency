@@ -9,14 +9,17 @@ exports.getPlaces = async (req, res, next) => {
   try {
     let places = await Place.paginate({}, { page, limit: amountByPage });
 
-    let basket = await Basket.find({userId: req.user.id});
+    let basket = await Basket.findOne({ userId: req.user.id });
 
-    if(basket.placeId){
+    const bookedPlaceId = basket.placeId;
+
+    if (basket.placeId) {
       places.docs = places.docs.map((place) => {
-        return{
-          ...place,
-          isBooked: place._id === basket.placeId
-        }
+        console.log(typeof place._doc._id);
+        return {
+          ...place._doc,
+          isBooked: place._doc._id.toString() === bookedPlaceId.toString(),
+        };
       });
     }
 
@@ -25,6 +28,7 @@ exports.getPlaces = async (req, res, next) => {
       pagesCount: Math.ceil(places.total / amountByPage),
     });
   } catch (err) {
+    console.log(err);
     return res.status(500).send();
   }
 };

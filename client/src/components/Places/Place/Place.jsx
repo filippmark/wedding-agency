@@ -9,17 +9,17 @@ import {
   CardBody,
 } from "reactstrap";
 import "./Place.css";
-import axios from 'axios';
+import axios from "axios";
+import { Redirect } from "react-router-dom";
 
 export default class Place extends Component {
   state = {
     ...this.props,
+    clicked: false,
   };
-
 
   bookPlace = async () => {
     try {
-
       let response;
 
       if (!this.state.isBooked) {
@@ -37,14 +37,19 @@ export default class Place extends Component {
         );
       }
 
-      this.props.history.push('/basket');
+      this.setState({
+        ...this.state,
+        clicked: true,
+      });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   render() {
-    return (
+    return this.state.clicked ? (
+      <Redirect to="/basket"></Redirect>
+    ) : (
       <Card>
         <CardImg
           top

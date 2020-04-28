@@ -66,8 +66,16 @@ export default class Basket extends Component {
     let price = 0;
 
     items.forEach((item) => {
-      price += item.price;
+      price += item.competitionId.price;
     });
+
+    if (this.state.placeId) {
+      price += this.state.placeId.price;
+    }
+
+    price *= this.state.coefficient;
+
+    console.log(price);
 
     this.setState({
       ...this.state,
@@ -86,13 +94,20 @@ export default class Basket extends Component {
 
       let price = 0;
 
+      console.log(this.state.items, coefficient);
+
       this.state.items.forEach((item) => {
         price += item.competitionId.price;
       });
 
+      if (this.state.placeId) {
+        price += this.state.placeId.price;
+      }
+
       this.setState({
         ...this.state,
         rate: id,
+        coefficient: coefficient,
         price: (price * coefficient).toFixed(2),
       });
 
@@ -103,16 +118,15 @@ export default class Basket extends Component {
   };
 
   createOrder = async () => {
-      try {
+    try {
+      let response = await axios.post("http://localhost:8080/order",
+      {}, {withCredentials: true});
 
-        let response = await axios.post('http://localhost:8080/order');
-
-        console.log(response);
-        
-      } catch (error) {
-          console.log(error);
-      }
-  }
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   componentDidMount() {
     this.getBasketInfo();
@@ -120,6 +134,9 @@ export default class Basket extends Component {
   }
 
   render() {
+
+    console.log(!!this.state.rate);
+
     return (
       <div className="basket">
         <div className="basket__items">
@@ -185,7 +202,13 @@ export default class Basket extends Component {
             </div>
             <div className="makeOffer">
               <div className="priceNumber">Цена: {this.state.price}р.</div>
-              <Button disabled={!!this.state.rate || !!this.state.placeId} onClick={this.createOrder}> Заказать </Button>
+              <Button
+                disabled={!(!!this.state.rate) || !(!!this.state.placeId)}
+                onClick={this.createOrder}
+              >
+                {" "}
+                Заказать{" "}
+              </Button>
             </div>
           </div>
         </div>
