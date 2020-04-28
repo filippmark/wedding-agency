@@ -3,11 +3,37 @@ const BasketItem = require("../models/basketItem");
 
 exports.getBasket = async (req, res, next) => {
   try {
-    const basket = await Basket.findOne({ userId: req.user.id }).populate(
-      "placeId"
+    let basket = await Basket.findOne({ userId: req.user.id }).populate(
+      "placeId rateId"
     );
 
-    const items = await BasketItem.find({ basketId: basket._id }).populate('competitionId');
+    basket = {
+      ...basket._doc,
+      price: 0,
+      amountOfItems: 0,
+      coefficient: 1
+    };
+
+    if (basket.rateId) {
+      basket = {
+        ...basket,
+        rateId: basket.rateId._id,
+        coefficient: basket.rateId.coefficient,
+      };
+    }
+
+    const items = await BasketItem.find({ basketId: basket._id }).populate(
+      "competitionId"
+    );
+
+    items.forEach((item) => {
+      basket.price = item.competitionId.price + basket.price;
+      basket.amountOfItems++;
+    });
+
+    basket.price += basket.placeId ? basket.placeId.price : 0;
+
+    basket.price *= basket.coefficient;
 
     res.status(200).send({
       basket,
@@ -15,6 +41,23 @@ exports.getBasket = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
+    return res.status(500).send();
+  }
+};
+
+exports.setRate = async (req, res, next) => {
+  const { rateId } = req.body;
+
+  try {
+    let basket = await Basket.findOneAndUpdate(
+      { userId: req.user.id },
+      {
+        $set: { rateId },
+      }
+    );
+
+    res.status(200).send(basket);
+  } catch (err) {
     return res.status(500).send();
   }
 };
@@ -75,8 +118,7 @@ exports.removeCompetitionFromBasket = async (req, res, next) => {
   const { competitionId } = req.params;
 
   try {
-
-    let basket = await Basket.findOne({userId: req.user.id});
+    let basket = await Basket.findOne({ userId: req.user.id });
 
     let basketItem = await BasketItem.findOneAndDelete({
       basketId: basket._id,

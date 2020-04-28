@@ -14,40 +14,37 @@ exports.getOrders = async (req, res, next) => {
 };
 
 exports.createNewOrder = async (req, res, next) => {
-
-  const { basketId } = req.body;
-
   try {
-
-    let basket = await Basket.findById(basketId);
+    let basket = await Basket.findOne({ userId: req.user.id });
 
     let order = new Order({
-        price: basket.price,
-        amountOfItems: basket.amountOfItems,
-        placeId: basket.placeId,
-        userId: basket.userId,
-        rate: basket.rate
+      placeId: basket.placeId,
+      userId: basket.userId,
+      rateId: basket.rateId,
     });
 
     order = await order.save();
 
-    let basketItems = await BasketItem.find({basketId: basket._id});
+    let basketItems = await BasketItem.find({ basketId: basket._id });
 
-    await Promise.all(basketItems.map(async (basketItem) => {
-
+    await Promise.all(
+      basketItems.map(async (basketItem) => {
         let orderItem = new OrderItem({
-            orderId: order._id,
-            competitionId: basketItem.competitionId
+          orderId: order._id,
+          competitionId: basketItem.competitionId,
         });
 
         orderItem = await orderItem.save();
 
-        await BasketItem.findOneAndDelete({competitionId: basketItems.competitionId});
-    }));
+        await BasketItem.findOneAndDelete({
+          competitionId: basketItems.competitionId,
+        });
+      })
+    );
 
     res.status(200).send();
-
   } catch (error) {
+    console.log(error);
     res.status(500).send();
   }
 };

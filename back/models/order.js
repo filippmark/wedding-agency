@@ -15,14 +15,6 @@ mongoose.set("useCreateIndex", true);
 mongoose.set("useFindAndModify", true);
 
 let orderScheme = new Schema({
-  price: {
-    type: Number,
-    required: true,
-  },
-  amountOfItems: {
-    type: Number,
-    required: true,
-  },
   placeId: {
     type: Schema.Types.ObjectId,
     ref: "place",
@@ -33,7 +25,7 @@ let orderScheme = new Schema({
     ref: "user",
     required: true
   },
-  rate: {
+  rateId: {
     type: Schema.Types.ObjectId,
     ref: "rate",
     required: true

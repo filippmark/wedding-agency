@@ -9,6 +9,7 @@ import AdminPlaces from './components/AdminPlaces/AdminPlaces';
 import SignIn from './components/SignIn/SignIn';
 import SignUp from './components/SignUp/SignUp';
 import Navbar from './components/Global/Navbar/Navbar';
+import Home from './components/Home/Home';
 import { AuthContext } from './context';
 import './App.css';
 
@@ -31,6 +32,7 @@ class App extends Component {
           <AuthContext.Provider value={{ isAuthorised: this.state.isAuthorised, setAuthorised: this.setAuthorised }}>
             <Navbar></Navbar>
             <Switch>
+              <Route exact path="/" render={props => <Home {...props}></Home>}/>
               <Route path="/basket" render={props => <Basket {...props}></Basket>}/>
               <Route path="/competitions" render={props => <Competitions {...props}></Competitions>}/>
               <Route path="/places" render={props => <Places {...props}></Places>}/>

@@ -4,6 +4,8 @@ const jwtHelpers = require('../helpers/jwtHelpers');
 
 basketRouter.get('/basket', jwtHelpers.isValidToken, basketController.getBasket);
 
+basketRouter.post('/basket/setRate', jwtHelpers.isValidToken, basketController.setRate);
+
 basketRouter.post('/basket/setPlace', jwtHelpers.isValidToken, basketController.setPlace);
 
 basketRouter.delete('/basket/unsetPlace', jwtHelpers.isValidToken, basketController.deletePlace);

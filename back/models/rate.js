@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-require("dotenv/types").config();
+require("../node_modules/dotenv").config();
 
 mongoose
   .connect(process.env.DB_ADDRESS, {

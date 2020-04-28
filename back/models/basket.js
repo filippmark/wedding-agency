@@ -15,14 +15,6 @@ mongoose.set("useCreateIndex", true);
 mongoose.set("useFindAndModify", true);
 
 let basketScheme = new Schema({
-  price: {
-    type: Number,
-    default: 0
-  },
-  amountOfItems: {
-    type: Number,
-    default: 0
-  },
   placeId: {
     type: Schema.Types.ObjectId,
     ref: "place",
@@ -33,7 +25,7 @@ let basketScheme = new Schema({
     ref: "user",
     default: null
   },
-  rate: {
+  rateId: {
     type: Schema.Types.ObjectId,
     ref: "rate",
     default: null

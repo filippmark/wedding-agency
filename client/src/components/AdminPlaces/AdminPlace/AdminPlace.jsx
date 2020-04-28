@@ -15,13 +15,13 @@ export default class AdminCompetition extends Component {
   state = {
     isChanged: this.props.isChanged,
     files: [],
-    name: '',
-    town: '',
-    street: '',
+    name: "",
+    town: "",
+    street: "",
     house: 0,
     volume: 0,
     price: 0,
-    ...this.props
+    ...this.props,
   };
 
   handleUpdate = (event) => {
@@ -142,12 +142,11 @@ export default class AdminCompetition extends Component {
               id="file"
               onClick={this.handleFileChange}
             />
-            <FormText color="muted">
-              {this.state.imagePath ?? `выберите фото`}
-            </FormText>
-            <Button disabled={this.state.files.length === 0}>
-              Загрузить фото
-            </Button>
+            <div className="uploadPhoto">
+              <Button disabled={this.state.files.length === 0}>
+                Загрузить фото
+              </Button>
+            </div>
           </FormGroup>
           <FormGroup>
             <Label for="volume"> Цена: </Label>

@@ -1,5 +1,14 @@
 import React, { Component } from "react";
-import { Form, FormGroup, Label, Input, Button, Card } from "reactstrap";
+import {
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Button,
+  Card,
+  FormText,
+} from "reactstrap";
+import axios from "axios";
 import "./AdminCompetition.css";
 
 export default class AdminCompetition extends Component {
@@ -10,6 +19,7 @@ export default class AdminCompetition extends Component {
     amountOfParticipants: 0,
     price: 0,
     ...this.props,
+    files: [],
   };
 
   handleUpdate = (event) => {
@@ -41,6 +51,31 @@ export default class AdminCompetition extends Component {
     });
   };
 
+  handleFileChange = (event) => {
+    this.setState({
+      ...this.state,
+      files: this.state.files[0],
+    });
+  };
+
+  updateFile = (event) => {
+    let formData = new FormData();
+    formData.append("file", this.files);
+    try {
+      let response = axios.post(
+        "http://localhost:8080/competition/photo",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   render() {
     return (
       <Card className="adminCompetition">
@@ -57,6 +92,20 @@ export default class AdminCompetition extends Component {
               value={this.state.name}
               onChange={this.handleChange}
             />
+          </FormGroup>
+          <FormGroup>
+            <Label for="file">File</Label>
+            <Input
+              type="file"
+              name="imagePath"
+              id="file"
+              onClick={this.handleFileChange}
+            />
+            <div className="uploadPhoto">
+              <Button disabled={this.state.files.length === 0}>
+                Загрузить фото
+              </Button>
+            </div>
           </FormGroup>
           <FormGroup>
             <Label for="description"> Описание: </Label>

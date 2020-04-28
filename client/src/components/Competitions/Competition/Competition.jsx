@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { CardSubtitle, Card, CardText, Button, CardTitle } from "reactstrap";
+import { CardSubtitle, Card, CardText, Button, CardTitle, CardBody, CardImg } from "reactstrap";
 import "./Competition.css";
 import axios from "axios";
 
@@ -40,20 +40,28 @@ export default class Competition extends Component {
 
   render() {
     return (
-      <Card body>
-        <CardTitle>{this.state.name}</CardTitle>
-        <div className="competitionDescription">
-          <CardText>{this.state.description}</CardText>
-        </div>
-        <CardSubtitle>
-          Кол-во участников: {this.state.amountOfParticipants}.
-        </CardSubtitle>
-        <CardSubtitle>Цена: {this.state.price} руб.</CardSubtitle>
-        <div className="addToCart">
-          <Button onClick={this.bookCompetition}>
-            {this.state.isBooked ? "Убрать из корзины" : "Добавить в корзину"}
-          </Button>
-        </div>
+      <Card>
+        <CardImg
+          top
+          width="100%"
+          src="https://reactstrap.github.io/assets/318x180.svg"
+          alt={this.state.name}
+        />
+        <CardBody>
+          <CardTitle>Название: {this.state.name}</CardTitle>
+          <div className="competitionDescription">
+            <CardText>Описание: {this.state.description}</CardText>
+          </div>
+          <CardSubtitle>
+            Кол-во участников: {this.state.amountOfParticipants}.
+          </CardSubtitle>
+          <CardSubtitle>Цена: {this.state.price} руб.</CardSubtitle>
+          <div className="addToCart">
+            <Button onClick={this.bookCompetition}>
+              {this.state.isBooked ? "Убрать из корзины" : "Добавить в корзину"}
+            </Button>
+          </div>
+        </CardBody>
       </Card>
     );
   }

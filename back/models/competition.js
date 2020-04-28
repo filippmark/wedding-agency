@@ -24,6 +24,10 @@ let competitionScheme = new Schema({
     type: String,
     required: true,
   },
+  imagePath: {
+    type: String,
+    default: null
+  },
   amountOfParticipants: {
     type: Number,
     required: true,
