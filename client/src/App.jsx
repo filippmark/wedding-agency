@@ -13,6 +13,7 @@ import Home from './components/Home/Home';
 import { AuthContext } from './context';
 import './App.css';
 import axios from 'axios';
+import Profile from './components/Profile/Profile';
 
 class App extends Component {
 
@@ -52,6 +53,7 @@ class App extends Component {
             <Navbar></Navbar>
             <Switch>
               <Route exact path="/" render={props => <Home {...props}></Home>}/>
+              <Route path="/profile" render={props => <Profile {...props}></Profile>}/>
               <Route path="/basket" render={props => <Basket {...props}></Basket>}/>
               <Route path="/competitions" render={props => <Competitions {...props}></Competitions>}/>
               <Route path="/places" render={props => <Places {...props}></Places>}/>

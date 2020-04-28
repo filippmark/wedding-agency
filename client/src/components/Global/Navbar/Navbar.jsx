@@ -126,6 +126,16 @@ export default class Navmenu extends React.PureComponent {
                       <NavLink
                         tag={Link}
                         className="text-dark"
+                        to="/profile"
+                      >
+                        {" "}
+                        Список заказов{" "}
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink
+                        tag={Link}
+                        className="text-dark"
                         to="/"
                         onClick={this.signOut}
                       >

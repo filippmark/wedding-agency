@@ -39,7 +39,7 @@ export default class Basket extends Component {
         coefficient: response.data.basket.coefficient,
       });
 
-      console.log(response.data);
+      
     } catch (error) {
       console.log(error);
     }
@@ -115,7 +115,7 @@ export default class Basket extends Component {
         price: (price * coefficient).toFixed(2),
       });
 
-      console.log(response);
+     
     } catch (error) {
       console.log(error);
     }
@@ -129,6 +129,7 @@ export default class Basket extends Component {
         { withCredentials: true }
       );
 
+      this.props.history.push('/profile');
       console.log(response);
     } catch (error) {
       console.log(error);

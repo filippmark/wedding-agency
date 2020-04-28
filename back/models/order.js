@@ -29,6 +29,14 @@ let orderScheme = new Schema({
     type: Schema.Types.ObjectId,
     ref: "rate",
     required: true
+  },
+  amountOfItems: {
+    type: Number,
+    required: true
+  },
+  price: {
+    type: Number,
+    required: true
   }
 });
 

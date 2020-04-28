@@ -5,7 +5,7 @@ const OrderItem = require("../models/orderItem");
 
 exports.getOrders = async (req, res, next) => {
   try {
-    let orders = await Order.find({ userId: req.user.id });
+    let orders = await Order.find({ userId: req.user.id }).populate('placeId rateId');
 
     res.status(200).send(orders);
   } catch (error) {
@@ -15,32 +15,50 @@ exports.getOrders = async (req, res, next) => {
 
 exports.createNewOrder = async (req, res, next) => {
   try {
-    let basket = await Basket.findOne({ userId: req.user.id });
+    let basket = await Basket.findOneAndUpdate({ userId: req.user.id }).populate(
+      "placeId rateId"
+    );
+
+    let price = basket.placeId.price;
+    let coefficient = basket.rateId.coefficient;
+
+    let basketItems = await BasketItem.find({ basketId: basket._id }).populate(
+      "competitionId"
+    );
+
+
+
+    basketItems.map(async (basketItem) => {
+      price += basketItem.competitionId.price;
+    });
 
     let order = new Order({
       placeId: basket.placeId,
       userId: basket.userId,
       rateId: basket.rateId,
+      price: price * coefficient,
+      amountOfItems: basketItems.length,
     });
 
-    order = await order.save();
+    await order.save();
 
-    let basketItems = await BasketItem.find({ basketId: basket._id });
 
     await Promise.all(
       basketItems.map(async (basketItem) => {
         let orderItem = new OrderItem({
           orderId: order._id,
-          competitionId: basketItem.competitionId,
+          competitionId: basketItem.competitionId._id,
         });
 
         orderItem = await orderItem.save();
 
         await BasketItem.findOneAndDelete({
-          competitionId: basketItems.competitionId,
+          competitionId: basketItem.competitionId._id,
         });
       })
     );
+
+    await Basket.findOneAndUpdate({ userId: req.user.id }, {$set: {placeId: null, rateId: null}})
 
     res.status(200).send();
   } catch (error) {
