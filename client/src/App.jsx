@@ -18,7 +18,9 @@ import Profile from './components/Profile/Profile';
 class App extends Component {
 
   state = {
-    isAuthorised: true
+    isAuthorised: true,
+    isAdmin: false,
+    email: ''
   }
 
   setAuthorised = (isAuthorised) => {
@@ -32,7 +34,13 @@ class App extends Component {
       
       let response = await axios.get('http://localhost:8080/isValidToken', {withCredentials: true});
 
-      console.log(response);
+      console.log(response.data);
+
+      this.setState({
+        ...this.state,
+        email: response.data.email,
+        isAdmin: response.data.isAdmin
+      });
 
     } catch (error) {
       this.setState({
@@ -49,7 +57,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <AuthContext.Provider value={{ isAuthorised: this.state.isAuthorised, setAuthorised: this.setAuthorised }}>
+          <AuthContext.Provider value={{ isAuthorised: this.state.isAuthorised, isAdmin: this.state.isAdmin, setAuthorised: this.setAuthorised }}>
             <Navbar></Navbar>
             <Switch>
               <Route exact path="/" render={props => <Home {...props}></Home>}/>

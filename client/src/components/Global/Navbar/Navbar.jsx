@@ -46,6 +46,7 @@ export default class Navmenu extends React.PureComponent {
   };
 
   render() {
+    console.log(this.context.isAdmin);
     return (
       <header>
         <Navbar
@@ -94,6 +95,40 @@ export default class Navmenu extends React.PureComponent {
                       </NavLink>
                     </NavItem>
                   </React.Fragment>
+                ) : this.context.isAdmin ? (
+                  <React.Fragment>
+                    <NavItem>
+                      <NavLink
+                        tag={Link}
+                        className="text-dark"
+                        to="/admin-competitions"
+                      >
+                        {" "}
+                        Редактировать конкурсы{" "}
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink
+                        tag={Link}
+                        className="text-dark"
+                        to="/admin-places"
+                      >
+                        {" "}
+                        Редактировать места проведения{" "}
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink
+                        tag={Link}
+                        className="text-dark"
+                        to="/"
+                        onClick={this.signOut}
+                      >
+                        {" "}
+                        Выйти{" "}
+                      </NavLink>
+                    </NavItem>
+                  </React.Fragment>
                 ) : (
                   <React.Fragment>
                     <NavItem>
@@ -113,21 +148,13 @@ export default class Navmenu extends React.PureComponent {
                       </NavLink>
                     </NavItem>
                     <NavItem>
-                      <NavLink
-                        tag={Link}
-                        className="text-dark"
-                        to="/basket"
-                      >
+                      <NavLink tag={Link} className="text-dark" to="/basket">
                         {" "}
                         Корзина{" "}
                       </NavLink>
                     </NavItem>
                     <NavItem>
-                      <NavLink
-                        tag={Link}
-                        className="text-dark"
-                        to="/profile"
-                      >
+                      <NavLink tag={Link} className="text-dark" to="/profile">
                         {" "}
                         Список заказов{" "}
                       </NavLink>

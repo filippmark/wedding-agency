@@ -52,3 +52,16 @@ exports.checkForUserExistence = async (req, res, next) => {
     res.status(500).send(error);
   }
 };
+
+exports.getUserData = async (req, res, next) => {
+  try {
+    
+    const user = await User.findById(req.user.id);
+
+    res.status(200).send(user);
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error.toString());
+  }
+}
