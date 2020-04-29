@@ -20,7 +20,7 @@ exports.getCompetitions = async (req, res, next) => {
 
         return {
           ...competition._doc,
-          isBooked: !!basketItem.length
+          isBooked: !!basketItem.length,
         };
       })
     );
@@ -52,6 +52,18 @@ exports.addCompetition = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     return res.status(500).send();
+  }
+};
+
+exports.setPhoto = async (req, res, next) => {
+  try {
+    await Competition.findByIdAndUpdate(req.body._id, {
+      $set: { imagePath: `http://localhost:8080/public/${req.file.filename}` },
+    });
+    res.status(200).send();
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
   }
 };
 

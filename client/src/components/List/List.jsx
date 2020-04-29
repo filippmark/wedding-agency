@@ -16,6 +16,7 @@ export default class List extends Component {
         withCredentials: true,
       });
 
+      console.log(response.data);
       this.setState({
         ...this.state,
         items: this.state.items.concat(response.data.items),

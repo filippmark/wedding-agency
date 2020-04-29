@@ -6,7 +6,7 @@ export default class AdminPlaces extends Component {
     render() {
         return (
             <React.Fragment>
-                <AdminList endpoint={'http://localhost:8080/place/'} Item={AdminPlace}></AdminList>
+                <AdminList  {...this.props} endpoint={'http://localhost:8080/place/'} Item={AdminPlace}></AdminList>
             </React.Fragment>
         )
     }

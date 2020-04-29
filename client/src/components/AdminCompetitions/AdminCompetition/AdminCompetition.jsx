@@ -19,7 +19,7 @@ export default class AdminCompetition extends Component {
     amountOfParticipants: 0,
     price: 0,
     ...this.props,
-    files: [],
+    file: null,
   };
 
   handleUpdate = (event) => {
@@ -52,23 +52,27 @@ export default class AdminCompetition extends Component {
   };
 
   handleFileChange = (event) => {
+    console.log(event.target.files);
     this.setState({
       ...this.state,
-      files: this.state.files[0],
+      file: event.target.files[0],
     });
   };
 
-  updateFile = (event) => {
+  updateFile = async (event) => {
     let formData = new FormData();
-    formData.append("file", this.files);
+    console.log(this.state);
+    formData.append("avatar", this.state.file);
+    formData.append("_id", this.state._id);
     try {
-      let response = axios.post(
+      let response = await axios.post(
         "http://localhost:8080/competition/photo",
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
           },
+          withCredentials: true
         }
       );
     } catch (error) {
@@ -99,10 +103,11 @@ export default class AdminCompetition extends Component {
               type="file"
               name="imagePath"
               id="file"
-              onClick={this.handleFileChange}
+              disabled={this.props.isNew}
+              onChange={this.handleFileChange}
             />
             <div className="uploadPhoto">
-              <Button disabled={this.state.files.length === 0}>
+              <Button onClick={this.updateFile} disabled={!(!!this.state.file)}>
                 Загрузить фото
               </Button>
             </div>

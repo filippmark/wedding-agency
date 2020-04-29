@@ -48,7 +48,8 @@ export default class Competition extends Component {
         <CardImg
           top
           width="100%"
-          src="https://reactstrap.github.io/assets/318x180.svg"
+          height="180px"
+          src={this.state.imagePath ? this.state.imagePath : "https://reactstrap.github.io/assets/318x180.svg"}
           alt={this.state.name}
         />
         <CardBody>

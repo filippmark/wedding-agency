@@ -11,11 +11,11 @@ exports.getPlaces = async (req, res, next) => {
 
     let bookedPlaceId = null;
 
-    if(req.user){
+    if (req.user) {
       let basket = await Basket.findOne({ userId: req.user.id });
       bookedPlaceId = basket.placeId;
     }
-    
+
     if (req.user && basket.placeId) {
       places.docs = places.docs.map((place) => {
         return {
@@ -54,6 +54,18 @@ exports.addPlace = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     return res.status(500).send();
+  }
+};
+
+exports.setPhoto = async (req, res, next) => {
+  try {
+    await Place.findByIdAndUpdate(req.body._id, {
+      $set: { imagePath: `http://localhost:8080/public/${req.file.filename}` },
+    });
+    res.status(200).send();
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
   }
 };
 

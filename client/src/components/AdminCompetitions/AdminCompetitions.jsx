@@ -7,7 +7,7 @@ export default class AdminCompetitions extends Component {
   render() {
     return (
       <React.Fragment>
-        <AdminList endpoint={'http://localhost:8080/competition/'} Item={AdminCompetition}></AdminList>
+        <AdminList {...this.props} endpoint={'http://localhost:8080/competition/'} Item={AdminCompetition}></AdminList>
       </React.Fragment>
     );
   }

@@ -100,6 +100,7 @@ export default class AdminList extends Component {
       updatedItem = {
         ...updatedItem,
         ...item,
+        isNew: false,
         _id: response.data._id,
       };
 
