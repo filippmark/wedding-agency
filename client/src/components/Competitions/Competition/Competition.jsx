@@ -63,7 +63,7 @@ export default class Competition extends Component {
           <CardSubtitle>Цена: {this.state.price} руб.</CardSubtitle>
           <div className="addToCart">
             <Button disabled={!this.context.isAuthorised} onClick={this.bookCompetition}>
-              {this.state.isBooked ? "Убрать из корзины" : "Добавить в корзину"}
+              {this.state.isBooked  && this.context.isAuthorised ? "Убрать из корзины" : "Добавить в корзину"}
             </Button>
           </div>
         </CardBody>

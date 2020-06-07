@@ -16,7 +16,7 @@ exports.createToken = async (res, body) => {
         secure: false,
         httpOnly: true,
       })
-      .send();
+      .send(body);
   } catch (error) {
     console.log(error);
     res.status(500).send();

@@ -3,7 +3,22 @@ const User = require('./models/user');
 
 ( async () => {
     
-    let user = await User.findOneAndUpdate({email: 'phil@mail.com'}, {$set: {isAdmin: true}});
+    let rate1 = new Rate({
+        name: 'эконом',
+        coefficient: 1.1
+    });
 
-    console.log(user);
+    let rate2 = new Rate({
+        name: 'комфорт',
+        coefficient: 1.1
+    });
+
+    let rate3 = new Rate({
+        name: 'супер',
+        coefficient: 1.1
+    });
+
+    await rate1.save();
+    await rate2.save();
+    await rate3.save();
 })()

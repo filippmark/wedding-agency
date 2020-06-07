@@ -58,6 +58,7 @@ export default class SignIn extends React.Component {
 
             console.log(response);
             this.context.setAuthorised(true);
+            this.context.setIsAdmin(response.data.isAdmin);
 
             this.props.history.push('/');
 

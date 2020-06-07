@@ -18,14 +18,22 @@ import Profile from './components/Profile/Profile';
 class App extends Component {
 
   state = {
-    isAuthorised: true,
+    isAuthorised: false,
     isAdmin: false,
     email: ''
   }
 
   setAuthorised = (isAuthorised) => {
     this.setState({
+      ...this.state,
       isAuthorised
+    });
+  }
+
+  setIsAdmin = (isAdmin) => {
+    this.setState({
+      ...this.state,
+      isAdmin
     });
   }
 
@@ -57,7 +65,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <AuthContext.Provider value={{ isAuthorised: this.state.isAuthorised, isAdmin: this.state.isAdmin, setAuthorised: this.setAuthorised }}>
+          <AuthContext.Provider value={{ isAuthorised: this.state.isAuthorised, isAdmin: this.state.isAdmin, setAuthorised: this.setAuthorised, setIsAdmin: this.setIsAdmin }}>
             <Navbar></Navbar>
             <Switch>
               <Route exact path="/" render={props => <Home {...props}></Home>}/>

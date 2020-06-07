@@ -19,6 +19,8 @@ exports.createNewOrder = async (req, res, next) => {
       "placeId rateId"
     );
 
+    console.log(basket);
+
     let price = basket.placeId.price;
     let coefficient = basket.rateId.coefficient;
 

@@ -40,6 +40,7 @@ export default class Navmenu extends React.PureComponent {
       console.log(response);
 
       this.context.setAuthorised(false);
+      this.context.setIsAdmin(false);
     } catch (error) {
       console.log(error);
     }

@@ -80,7 +80,7 @@ export default class Place extends Component {
           <CardSubtitle> Цена: {this.state.price}.</CardSubtitle>
           <div className="addToCart">
             <Button disabled={!this.context.isAuthorised} onClick={this.bookPlace}>
-              {this.state.isBooked ? "Убрать из корзины" : "Добавить в корзину"}
+              {this.state.isBooked && this.context.isAuthorised ? "Убрать из корзины" : "Добавить в корзину"}
             </Button>
           </div>
         </CardBody>
